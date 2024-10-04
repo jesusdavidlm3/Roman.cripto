@@ -1,7 +1,19 @@
+import { useEffect } from "react"
+import { Outlet, useNavigate } from "react-router-dom"
+import NavBar from '../components/NavBar'
+
 const Root = () => {
+
+    const navigate = useNavigate()
+
+    useEffect(() => {
+        navigate('/Home')
+    }, [])
+
     return(
-        <div className="root">
-            
+        <div className="Root">
+            <NavBar/>
+            <Outlet/>
         </div>
     )
 }

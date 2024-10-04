@@ -1,11 +1,12 @@
 import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import appContextProvider from './context/contextProvider'
-import { Root } from './pages/root'
-import { errorPage } from './pages/errorPage'
-import { page1 } from './pages/page1'
-import { page2 } from './pages/page2'
-import { page3 } from './pages/page3'
+import AppContextProvider from './context/AppContextProvider'
+import Root from './pages/root'
+import errorPage from './pages/errorPage'
+import Home from './pages/Home'
+import Dashboard from './pages/Dashboard'
+import page3 from './pages/page3'
+import './style.scss'
 
 
 const router = createBrowserRouter([
@@ -15,12 +16,12 @@ const router = createBrowserRouter([
     errorElement: <errorPage/>,
     children: [
       {
-        path: '/ch1',
-        element: <page1/>
+        path: '/Home',
+        element: <Home/>
       },
       {
-        path: '/ch2',
-        element: <page2/>
+        path: '/Dashboard',
+        element: <Dashboard/>
       },
       {
         path: '/ch3',
@@ -32,7 +33,7 @@ const router = createBrowserRouter([
 ])
 
 createRoot(document.getElementById('root')).render(
-  <appContextProvider>
+  <AppContextProvider>
     <RouterProvider  router={router}/>
-  </appContextProvider>
+  </AppContextProvider>
 )
