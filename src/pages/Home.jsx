@@ -20,7 +20,7 @@ const Home = () => {
             email: email,
             password: await encrypt(password)
         }
-
+        console.log(data)
         let res = await login(data)
         if(res.status == 200){
             navigate('/Dashboard')
@@ -33,10 +33,22 @@ const Home = () => {
     }
 
     const sendRegister = async () => {
-        const id = document.getElementById('').value
+        const id = document.getElementById('regId').value
+        const name = document.getElementById('regName').value
+        const address = document.getElementById('regAddress').value
+        const phone = document.getElementById('regPhone').value
+        const email = document.getElementById('regEmail').value
+        const birthDate = document.getElementById('regBirthDate').value
+        const password = document.getElementById('regPassword').value
 
         const data = {
             id: id,
+            name: name,
+            address: address,
+            phone: phone,
+            email: email,
+            birthDate: birthDate,
+            password: password,
         }
 
         let res = await createUser(data)
