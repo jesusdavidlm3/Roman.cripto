@@ -2,6 +2,7 @@
 
 @mixin basics{
     background-color: #4c956c;
+    height: calc(100vh - 70px);
 }
 
 body{
@@ -24,7 +25,6 @@ body{
 
 .Home{
     margin: 0px;
-    height: calc(100vh - 70px);
     @include basics;
     display: flex;
     flex-direction: column;
@@ -47,6 +47,29 @@ body{
     }
 }
 
-.DashBoard{
+.Dashboard{
     @include basics;
+    display: flex;
+
+    .LatPanel{
+        background-color: #2c6e49;
+        margin: 15px;
+        border-radius: 15px;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        width: calc(20vw - 30px);
+        align-items: center;
+        padding: 15px;
+    }
+
+    .ListContainer{
+        background-color: #2c6e49;
+        margin: 15px;
+        border-radius: 15px;
+        width: calc(80vw - 30px);
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
 }
