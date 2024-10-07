@@ -9,14 +9,14 @@ const NavBar = () => {
     const {userData, setUserData, setLogged, logged} = useContext(appContext)
 
     function logout(){
-        navigate('/login')
+        navigate('/home')
         setUserData('')
         setLogged(false)
     }
 
     return(
         <div className="NavBar">
-            <h1>Bienvenido {logged ? (<>userData.name</>):(<>a MediControl</>)}</h1>
+            <h1>Bienvenido {logged ? (userData.name):(<>a MediControl</>)}</h1>
             {logged && <Button color="danger" variant="solid" onClick={logout}>Cerrar Sesion</Button>}
         </div>
     )

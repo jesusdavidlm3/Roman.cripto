@@ -2,7 +2,7 @@ import { createRoot } from 'react-dom/client'
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
 import AppContextProvider from './context/AppContextProvider'
 import Root from './pages/root'
-import errorPage from './pages/errorPage'
+import ErrorPage from './pages/ErrorPage'
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import page3 from './pages/page3'
@@ -13,7 +13,7 @@ const router = createBrowserRouter([
   {
     path: '/',
     element: <Root/>,
-    errorElement: <errorPage/>,
+    errorElement: <ErrorPage/>,
     children: [
       {
         path: '/Home',

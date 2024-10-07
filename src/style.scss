@@ -20,7 +20,6 @@ body{
     padding: 0px 20px;
     height: 70px;
     margin: 0px;
-    box-shadow: 15px 15px 15px 15px rgba(0, 0, 0, 0.6);
 }
 
 .Home{
@@ -46,4 +45,8 @@ body{
         .Input{margin: 3px;}
         h2{margin: 3px;}
     }
+}
+
+.DashBoard{
+    @include basics;
 }

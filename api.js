@@ -13,16 +13,16 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 app.post('/api/login', (req, res) => {
-    const {email, password} = req.body
-    db.run('SELECT * FROM users WHERE email = ?', [email], (err, user) => {
+    const { email, password } = req.body
+    db.get('SELECT * FROM users WHERE email = ?', [email], (err, user) => {
         if(err){
             res.status(500).send('error del servidor')
         }else if(!user){
-            res.status(404).send('usuario no encontrado')
+            res.status(401).send('usuario no encontrado')
         }else if(user.password == password){
             res.status(200).send(user)
         }else{
-            res.send
+            res.status(403).send('Contraseña incorrecta')
         }
     })
 })

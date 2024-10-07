@@ -2,11 +2,13 @@ import { Form, Button, Input, Modal, message } from 'antd'
 import { encrypt } from '../functions/hash'
 import { login, createUser } from '../client/client'
 import { useNavigate } from 'react-router-dom'
-import { useState } from 'react'
+import { useContext, useState } from 'react'
 import { RegModal } from '../components/Modals'
+import { appContext } from '../context/appContext'
 
 const Home = () => {
 
+    const {logged, setLogged, setUserData} = useContext(appContext)
     const [messageApi, contextHolder] = message.useMessage()
     const navigate = useNavigate()
     const [modalReg, setModalReg] = useState(false)
@@ -23,6 +25,8 @@ const Home = () => {
         console.log(data)
         let res = await login(data)
         if(res.status == 200){
+            setUserData(res.data)
+            setLogged(true)
             navigate('/Dashboard')
         }else{
             messageApi.open({
