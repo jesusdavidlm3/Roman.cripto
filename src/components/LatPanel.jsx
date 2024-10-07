@@ -1,13 +1,14 @@
 import { Button } from 'antd'
-import AppContext from 'antd/es/app/context'
 import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { appContext } from '../context/appContext'
 
 const LatPanel = () => {
 
     const navigate = useNavigate()
-    const { userData } = useContext(AppContext)
+    const { userData } = useContext(appContext)
     const type = userData.type
+    console.log(userData)
     return(
         <div className="LatPanel">
 

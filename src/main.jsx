@@ -5,7 +5,7 @@ import Root from './pages/root'
 import ErrorPage from './pages/ErrorPage'
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
-import page3 from './pages/page3'
+import History from './pages/History'
 import './style.scss'
 
 
@@ -24,8 +24,8 @@ const router = createBrowserRouter([
         element: <Dashboard/>
       },
       {
-        path: '/ch3',
-        element: <page3/>
+        path: '/History',
+        element: <History/>
       },
       
     ]

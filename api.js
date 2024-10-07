@@ -16,6 +16,7 @@ app.post('/api/login', (req, res) => {
     const { email, password } = req.body
     db.get('SELECT * FROM users WHERE email = ?', [email], (err, user) => {
         if(err){
+            console.log(err)
             res.status(500).send('error del servidor')
         }else if(!user){
             res.status(401).send('usuario no encontrado')
@@ -23,6 +24,19 @@ app.post('/api/login', (req, res) => {
             res.status(200).send(user)
         }else{
             res.status(403).send('Contraseña incorrecta')
+        }
+    })
+})
+
+app.post('/api/createUser', (req, res) => {
+    const { id, name, address, phone, email, birthDate, password, type } = req.body
+    console.log(req.body)
+    db.run('INSERT INTO users(id, name, address, phone, email, birthDate, password, type) VALUES(? ,? ,? ,? ,? ,? ,?, ?)', [id, name, address, phone, email, birthDate, password, type], (err) => {
+        if(err){
+            console.log(err)
+            res.status(500).send('Error del servidor')
+        }else{
+            res.status(200).send('registro exitoso')
         }
     })
 })

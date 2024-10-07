@@ -12,6 +12,7 @@ const Home = () => {
     const [messageApi, contextHolder] = message.useMessage()
     const navigate = useNavigate()
     const [modalReg, setModalReg] = useState(false)
+    const [regBirthDate, setRegBirthDate] = useState('')
 
     const sendLogin = async () => {
 
@@ -22,7 +23,6 @@ const Home = () => {
             email: email,
             password: await encrypt(password)
         }
-        console.log(data)
         let res = await login(data)
         if(res.status == 200){
             setUserData(res.data)
@@ -42,7 +42,7 @@ const Home = () => {
         const address = document.getElementById('regAddress').value
         const phone = document.getElementById('regPhone').value
         const email = document.getElementById('regEmail').value
-        const birthDate = document.getElementById('regBirthDate').value
+        const birthDate = regBirthDate
         const password = document.getElementById('regPassword').value
 
         const data = {
@@ -52,11 +52,13 @@ const Home = () => {
             phone: phone,
             email: email,
             birthDate: birthDate,
-            password: password,
+            password: await encrypt(password),
+            type: 2
         }
 
         let res = await createUser(data)
         if(res.status == 200){
+            setModalReg(false)
             messageApi.open({
                 type: 'success',
                 content: 'Usuario creado con exito'
@@ -85,7 +87,7 @@ const Home = () => {
                 <Button className='Button' onClick={sendLogin} type='primary'>Iniciar sesion</Button>
                 <Button className='Button' onClick={() => setModalReg(true)}>Registrarse</Button>
             </Form>
-            <RegModal open={modalReg} onCancel={() => setModalReg(false)} onOk={() => sendRegister()}/>
+            <RegModal open={modalReg} onCancel={() => setModalReg(false)} onOk={() => sendRegister()} BirthDateControl={(a, b) => setRegBirthDate(a)}/>
         </div>
     )
 }

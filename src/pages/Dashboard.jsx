@@ -1,12 +1,12 @@
 import { useContext, useEffect, useState } from "react"
 import LatPanel from "../components/LatPanel"
 import { Button } from "antd"
-import AppContext from "antd/es/app/context"
+import { appContext } from "../context/appContext"
 
 const Dashboard = () => {
 
     const [showList, setShowList] = useState([])
-    const {userData} = useContext(AppContext)
+    const {userData} = useContext(appContext)
 
     useEffect(() => {
         if(userData == 0){
