@@ -41,6 +41,31 @@ app.post('/api/createUser', (req, res) => {
     })
 })
 
+app.post('/api/createDoctor', (req, res) => {
+    const { id, name, address, phone, email, birthDate, password, type, specialty } = req.body
+    console.log(req.body)
+    db.run('INSERT INTO users(id, name, address, phone, email, birthDate, password, type, specialty) VALUES(? ,? ,? ,? ,? ,? ,?, ?, ?)', [id, name, address, phone, email, birthDate, password, type, specialty], (err) => {
+        if(err){
+            console.log(err)
+            res.status(500).send('Error del servidor')
+        }else{
+            res.status(200).send('registro exitoso')
+        }
+    })
+})
+
+app.post('/api/createSpecialty', (req, res) => {
+    const {name} = req.body
+    db.run('INSERT INTO specialties(name) VALUES(?)', [name], (err) => {
+        if(err){
+            console.log(err)
+            res.status(500).send('Error del servidor')
+        }else{
+            res.status(200).send('Especialidad agregada')
+        }
+    })
+})
+
 const server = createServer(app)
 server.listen(port, () => {
 console.log(`su puerto es: ${port}`)

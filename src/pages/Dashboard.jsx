@@ -6,6 +6,7 @@ import { appContext } from "../context/appContext"
 const Dashboard = () => {
 
     const [showList, setShowList] = useState([])
+    const [regDoctorModal, setRegDoctorModal] = useState(false)
     const {userData} = useContext(appContext)
 
     useEffect(() => {
@@ -20,7 +21,7 @@ const Dashboard = () => {
 
     return( 
         <div className="Dashboard">
-            <LatPanel/>
+            <LatPanel regDoctorModal={() => setRegDoctorModal(true)}/>
             <div className="ListContainer">
                 <h1>Citas Agendadas</h1>
                 <div className="List">

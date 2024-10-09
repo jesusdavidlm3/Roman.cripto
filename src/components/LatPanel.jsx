@@ -13,8 +13,10 @@ const LatPanel = () => {
         <div className="LatPanel">
 
             { type == 0 && <>
-                <Button type='primary'>Registrar doctor</Button>
+                <Button type='primary' onClick={() => navigate('/AdminDocs')}>Administrar doctores</Button>
                 <Button type='primary' onClick={() => navigate('/History')}> Consultar historial</Button>
+                <Button type='primary' onClick={() => navigate('/AdminSpec')}> Administrar especialidades</Button>
+                <Button type='primary'> Agendar cita</Button>
             </> }
 
             { type == 1 && <>

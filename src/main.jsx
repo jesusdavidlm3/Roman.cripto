@@ -6,6 +6,8 @@ import ErrorPage from './pages/ErrorPage'
 import Home from './pages/Home'
 import Dashboard from './pages/Dashboard'
 import History from './pages/History'
+import Specialties from './pages/Specialties'
+import AdminDocs from './pages/AdminDocs'
 import './style.scss'
 
 
@@ -27,7 +29,14 @@ const router = createBrowserRouter([
         path: '/History',
         element: <History/>
       },
-      
+      {
+        path: '/adminSpec',
+        element: <Specialties/>
+      },
+      {
+        path: '/adminDocs',
+        element: <AdminDocs/>
+      }
     ]
   }
 ])
