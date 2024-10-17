@@ -14,6 +14,7 @@ app.use(express.urlencoded({extended: true}))
 
 app.post('/api/login', (req, res) => {
     const { email, password } = req.body
+    console.log(req.body)
     db.get('SELECT * FROM users WHERE email = ?', [email], (err, user) => {
         if(err){
             console.log(err)
@@ -55,7 +56,7 @@ app.post('/api/createDoctor', (req, res) => {
 })
 
 app.post('/api/createSpecialty', (req, res) => {
-    const {name} = req.body
+    const { name } = req.body
     db.run('INSERT INTO specialties(name) VALUES(?)', [name], (err) => {
         if(err){
             console.log(err)

@@ -20,7 +20,7 @@ const Home = () => {
         const password = document.getElementById('loginPassword').value
 
         const data = {
-            email: email,
+            email: await encrypt(email),
             password: await encrypt(password)
         }
         let res = await login(data)
@@ -50,7 +50,7 @@ const Home = () => {
             name: name,
             address: address,
             phone: phone,
-            email: email,
+            email: await encrypt(email),
             birthDate: birthDate,
             password: await encrypt(password),
             type: 2
