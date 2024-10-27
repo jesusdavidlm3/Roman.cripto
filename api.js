@@ -13,9 +13,9 @@ app.use(express.json())
 app.use(express.urlencoded({extended: true}))
 
 app.post('/api/login', (req, res) => {
-    const { email, password } = req.body
+    const { userName, password } = req.body
     console.log(req.body)
-    db.get('SELECT * FROM users WHERE email = ?', [email], (err, user) => {
+    db.get('SELECT * FROM users WHERE userName = ?', [userName], (err, user) => {
         if(err){
             console.log(err)
             res.status(500).send('error del servidor')
@@ -30,9 +30,9 @@ app.post('/api/login', (req, res) => {
 })
 
 app.post('/api/createUser', (req, res) => {
-    const { id, name, address, phone, email, birthDate, password, type } = req.body
+    const { id, name, address, phone, email, birthDate, password, type, userName, lastPass } = req.body
     console.log(req.body)
-    db.run('INSERT INTO users(id, name, address, phone, email, birthDate, password, type) VALUES(? ,? ,? ,? ,? ,? ,?, ?)', [id, name, address, phone, email, birthDate, password, type], (err) => {
+    db.run('INSERT INTO users(id, userName, name, address, phone, email, birthDate, password, lastPass, type) VALUES(? ,? ,? ,? ,? ,? ,?, ?, ?, ?)', [id, name, userName, address, phone, email, birthDate, password, lastPass, type], (err) => {
         if(err){
             console.log(err)
             res.status(500).send('Error del servidor')
@@ -43,9 +43,9 @@ app.post('/api/createUser', (req, res) => {
 })
 
 app.post('/api/createDoctor', (req, res) => {
-    const { id, name, address, phone, email, birthDate, password, type, specialty } = req.body
+    const { id, name, address, phone, email, birthDate, password, type, specialty, userName, lastPass } = req.body
     console.log(req.body)
-    db.run('INSERT INTO users(id, name, address, phone, email, birthDate, password, type, specialty) VALUES(? ,? ,? ,? ,? ,? ,?, ?, ?)', [id, name, address, phone, email, birthDate, password, type, specialty], (err) => {
+    db.run('INSERT INTO users(id, name, userName, address, phone, email, birthDate, password, lastPass, type, specialty) VALUES(? ,? ,? ,? ,? ,? ,?, ?, ?, ?, ?)', [id, name, userName, address, phone, email, birthDate, password, lastPass, type, specialty], (err) => {
         if(err){
             console.log(err)
             res.status(500).send('Error del servidor')

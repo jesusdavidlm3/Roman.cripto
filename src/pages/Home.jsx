@@ -16,11 +16,11 @@ const Home = () => {
 
     const sendLogin = async () => {
 
-        const email = document.getElementById('loginEmail').value
+        const userName = document.getElementById('loginUserName').value
         const password = document.getElementById('loginPassword').value
 
         const data = {
-            email: await encrypt(email),
+            userName: await encrypt(userName),
             password: await encrypt(password)
         }
         let res = await login(data)
@@ -39,23 +39,27 @@ const Home = () => {
     const sendRegister = async () => {
         const id = document.getElementById('regId').value
         const name = document.getElementById('regName').value
+        const userName = document.getElementById('regUserName').value
         const address = document.getElementById('regAddress').value
         const phone = document.getElementById('regPhone').value
         const email = document.getElementById('regEmail').value
         const birthDate = regBirthDate
         const password = document.getElementById('regPassword').value
+        const lastPass = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`
 
         const data = {
             id: id,
             name: name,
+            userName: await encrypt (userName),
             address: address,
             phone: phone,
-            email: await encrypt(email),
-            birthDate: birthDate,
+            email: email,
+            birthDate: `${birthDate.$D}/${birthDate.$M + 1}/${birthDate.$y}`,
             password: await encrypt(password),
-            type: 2
+            type: 2,
+            lastPass: lastPass
         }
-
+        console.log(data)
         let res = await createUser(data)
         if(res.status == 200){
             setModalReg(false)
@@ -77,7 +81,7 @@ const Home = () => {
             <h3>Inicie sesion o registrese para agendar su cita</h3>
             <Form className='formulario'>
                 <h2>Iniciar sesion</h2>
-                <Form.Item className='Input' name='loginEmail' rules={[{type: 'email', required: true, message: 'Por favor ingrese un correo valido'}]}>
+                <Form.Item className='Input' name='loginUserName' rules={[{type: 'email', required: true, message: 'Por favor ingrese un correo valido'}]}>
                     <Input placeholder='Correo'/>
                 </Form.Item>
                 <Form.Item className='Input' name='loginPassword' rules={[{required: true, message: 'Por favor ingrese un correo valido'}]}>
@@ -87,7 +91,7 @@ const Home = () => {
                 <Button className='Button' onClick={sendLogin} type='primary'>Iniciar sesion</Button>
                 <Button className='Button' onClick={() => setModalReg(true)}>Registrarse</Button>
             </Form>
-            <RegModal open={modalReg} onCancel={() => setModalReg(false)} onOk={() => sendRegister()} BirthDateControl={(a, b) => setRegBirthDate(a)}/>
+            <RegModal open={modalReg} onCancel={() => setModalReg(false)} onOk={() => sendRegister()} BirthDateControl={setRegBirthDate}/>
         </div>
     )
 }

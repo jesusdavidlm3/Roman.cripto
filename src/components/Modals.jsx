@@ -11,6 +11,9 @@ export const RegModal = ({open, onOk, onCancel, BirthDateControl}) => {
                 <Form.Item name='regName' rules={[{required: true, message: 'Por favor ingrese un ... valido'}]}>
                     <Input placeholder="Nombre"/>
                 </Form.Item>
+                <Form.Item name='regUserName' rules={[{required: true, message: 'Por favor ingrese un ... valido'}]}>
+                    <Input placeholder="Usuario"/>
+                </Form.Item>
                 <Form.Item name='regAddress' rules={[{required: true, message: 'Por favor ingrese un ... valido'}]}>
                     <Input placeholder="Direccion"/>
                 </Form.Item>
@@ -21,7 +24,7 @@ export const RegModal = ({open, onOk, onCancel, BirthDateControl}) => {
                     <Input placeholder="Correo"/>
                 </Form.Item>
                 <Form.Item name='regBirthDate' rules={[{required: true, message: 'Por favor ingrese un ... valido'}]}>
-                    <DatePicker onChange={BirthDateControl}/>
+                    <DatePicker onChange={(a, b) => BirthDateControl(b)}/>
                 </Form.Item>
                 <Form.Item name='regPassword' rules={[{required: true, message: 'Por favor ingrese un ... valido'}]}>
                     <Input.Password placeholder="Contraseña"/>
@@ -62,7 +65,7 @@ export const NewDoctorModal = ({birthDateReg, onOk, onCancel, open}) => {
                     <Input/>
                 </Form.Item>
                 <Form.Item name ='regBirthDate' rules={[{required: true, message: ''}]}>
-                    <DatePicker onChange={birthDateReg}/>
+                    <DatePicker onChange={(a, b) => birthDateReg(b)}/>
                 </Form.Item>
                 <Form.Item name ='regSpecialty' rules={[{required: true, message: ''}]}>
                     <Select
