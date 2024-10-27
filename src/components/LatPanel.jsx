@@ -8,7 +8,7 @@ const LatPanel = () => {
     const navigate = useNavigate()
     const { userData } = useContext(appContext)
     const type = userData.type
-    console.log(userData)
+    // console.log(userData)
     return(
         <div className="LatPanel">
 

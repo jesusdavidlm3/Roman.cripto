@@ -32,7 +32,7 @@ app.post('/api/login', (req, res) => {
 app.post('/api/createUser', (req, res) => {
     const { id, name, address, phone, email, birthDate, password, type, userName, lastPass } = req.body
     console.log(req.body)
-    db.run('INSERT INTO users(id, userName, name, address, phone, email, birthDate, password, lastPass, type) VALUES(? ,? ,? ,? ,? ,? ,?, ?, ?, ?)', [id, name, userName, address, phone, email, birthDate, password, lastPass, type], (err) => {
+    db.run('INSERT INTO users(id, name, userName, address, phone, email, birthDate, password, lastPass, type) VALUES(? ,? ,? ,? ,? ,? ,?, ?, ?, ?)', [id, name, userName, address, phone, email, birthDate, password, lastPass, type], (err) => {
         if(err){
             console.log(err)
             res.status(500).send('Error del servidor')

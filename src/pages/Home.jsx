@@ -82,7 +82,7 @@ const Home = () => {
             <Form className='formulario'>
                 <h2>Iniciar sesion</h2>
                 <Form.Item className='Input' name='loginUserName' rules={[{type: 'email', required: true, message: 'Por favor ingrese un correo valido'}]}>
-                    <Input placeholder='Correo'/>
+                    <Input placeholder='Usuario'/>
                 </Form.Item>
                 <Form.Item className='Input' name='loginPassword' rules={[{required: true, message: 'Por favor ingrese un correo valido'}]}>
                     <Input.Password placeholder='Contraseña'/>
