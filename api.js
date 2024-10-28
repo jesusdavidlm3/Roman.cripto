@@ -29,6 +29,20 @@ app.post('/api/login', (req, res) => {
     })
 })
 
+app.patch('/api/changePassword', (req, res) => {
+
+    const {newLastPass, newPassword, userId} = req.body
+
+    db.run('UPDATE users SET password = ?, lastPass = ? WHERE id = ?', [newPassword, newLastPass, userId], (err) => {
+        if(err){
+            console.log(err)
+            res.status(500).send('error del servidor')
+        }else{
+            res.status(200).send('Contraseña cambiada con exito')
+        }
+    })
+})
+
 app.post('/api/createUser', (req, res) => {
     const { id, name, address, phone, email, birthDate, password, type, userName, lastPass } = req.body
     console.log(req.body)

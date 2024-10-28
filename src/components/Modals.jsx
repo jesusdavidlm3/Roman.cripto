@@ -1,4 +1,5 @@
-import { Modal, Form, Input, Button, DatePicker, TimePicker, Select } from "antd"
+import { Modal, Form, Input, Button, DatePicker, TimePicker, Select, message } from "antd"
+import FormItem from "antd/es/form/FormItem"
 import { useEffect, useState } from "react"
 
 export const RegModal = ({open, onOk, onCancel, BirthDateControl}) => {
@@ -88,6 +89,29 @@ export const NewSpecialty = ({open, onCancel, onOk}) => {
                 <Form.Item name='specName'>
                     <Input placeholder="Nombre de la especialidad"/>
                 </Form.Item>
+            </Form>
+        </Modal>
+    )
+}
+
+export const ChangePassword = ({open, onOk}) => {
+
+    const [messageApi, contextHolder] = message.useMessage()
+
+    const cancelTry = () => {
+        messageApi.open({
+            type: 'error',
+            content: 'Debe suministrar una nueva contraseña'
+        })
+    }
+
+    return(
+        <Modal title='Su contraseña se ha vencido' onOk={onOk} onCancel={cancelTry} open={open} destroyOnClose>
+            {contextHolder}
+            <Form>
+                <FormItem name='newPassword'>
+                    <Input.Password placeholder="Contraseña Nueva"/>
+                </FormItem>
             </Form>
         </Modal>
     )

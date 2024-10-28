@@ -56,3 +56,12 @@ export async function createNewSpecialty(){
         return err
     }
 }
+
+export async function changePassword(data) {
+    try{
+        let res = await axios.patch(`${url}/api/changePassword`, data)
+        return res
+    }catch(err){
+        return err
+    }
+}
