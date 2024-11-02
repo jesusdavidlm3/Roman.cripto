@@ -5,13 +5,24 @@ const AppContextProvider = ({children}) => {
 
     const [userData, setUserData] = useState('')
     const [logged, setLogged] = useState(false)
+    const [specialties, setSpecialties] = useState([
+        {id: 1, name: 'Cardiologia'},
+        {id: 2, name: 'Neumonologia'},
+        {id: 3, name: 'Dermatologia'},
+        {id: 4, name: 'Neurologia'},
+        {id: 5, name: 'Oncologia'}
+    ])
+    const [doctorsList, setDoctorsList] = useState([])
 
     return(
         <appContext.Provider value={{
             userData,
             setUserData,
             logged,
-            setLogged
+            setLogged,
+            specialties,
+            doctorsList,
+            setDoctorsList
         }}>
             {children}
         </appContext.Provider>

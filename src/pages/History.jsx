@@ -1,11 +1,12 @@
 import { Input } from "antd"
-import AppContext from "antd/es/app/context"
 import { useContext, useEffect, useState } from "react"
+import { appContext } from "../context/appContext"
 
 const History = () => {
 
-    const {userData} = useContext(AppContext)
+    const {userData} = useContext(appContext)
     const [showList, setShowList] = useState([])
+
     useEffect(() => {
         if(userData.type == 2){
             // buscar los registros correspondientes al id

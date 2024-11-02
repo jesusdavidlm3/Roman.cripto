@@ -1,6 +1,7 @@
 import { Modal, Form, Input, Button, DatePicker, TimePicker, Select, message } from "antd"
 import FormItem from "antd/es/form/FormItem"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
+import { appContext } from "../context/appContext"
 
 export const RegModal = ({open, onOk, onCancel, BirthDateControl}) => {
     return(
@@ -35,46 +36,50 @@ export const RegModal = ({open, onOk, onCancel, BirthDateControl}) => {
     )
 }
 
-export const NewDoctorModal = ({birthDateReg, onOk, onCancel, open}) => {
+export const NewDoctorModal = ({birthDateReg, onOk, onCancel, open, specialtyHandler}) => {
 
-    const [espDisp, setEspDisp] = useState([])
-    const [espSelect, setEspSelect] = useState('')
+    const { specialties } = useContext(appContext)
+    let options = []
 
-    useEffect(() => {
-        // pedir especialidades disponibles
-    }, [])
+    specialties.forEach(item => {
+        let current = {
+            value: item.id,
+            label: item.name
+        }
+        options.push(current)
+    });
 
     return(
         <Modal title='Registrar un doctor' onOk={onOk} onCancel={onCancel} open={open} destroyOnClose>
             <Form>
                 <Form.Item name ='regId' rules={[{required: true, message: ''}]}>
-                    <Input/>
+                    <Input placeholder="Cedula"/>
                 </Form.Item>
                 <Form.Item name ='regName' rules={[{required: true, message: ''}]}>
-                    <Input/>
+                    <Input placeholder="Nombre"/>
                 </Form.Item>
                 <Form.Item name ='regAddress' rules={[{required: true, message: ''}]}>
-                    <Input/>
+                    <Input placeholder="Direccion"/>
                 </Form.Item>
                 <Form.Item name ='regEmail' rules={[{required: true, message: '', type: 'email'}]}>
-                    <Input/>
+                    <Input placeholder="Correo"/>
+                </Form.Item>
+                <Form.Item name ='regUserName' rules={[{required: true, message: '', type: 'email'}]}>
+                    <Input placeholder="Usuario"/>
                 </Form.Item>
                 <Form.Item name ='regPassword' rules={[{required: true, message: ''}]}>
-                    <Input.Password/>
+                    <Input.Password placeholder="Contraseña"/>
                 </Form.Item>
                 <Form.Item name ='regPhone' rules={[{required: true, message: ''}]}>
-                    <Input/>
+                    <Input placeholder="Telefono"/>
                 </Form.Item>
-                <Form.Item name ='regBirthDate' rules={[{required: true, message: ''}]}>
+                <Form.Item label='Fecha de nacimiento' name ='regBirthDate' rules={[{required: true, message: ''}]}>
                     <DatePicker onChange={(a, b) => birthDateReg(b)}/>
                 </Form.Item>
-                <Form.Item name ='regSpecialty' rules={[{required: true, message: ''}]}>
+                <Form.Item label='Especialidad' name ='regSpecialty' rules={[{required: true, message: ''}]}>
                     <Select
-                        onChange={(e) => setEspDisp(e)}
-                        options={espDisp.map((item) => {
-                            value: item.id;
-                            label: item.name;
-                        })}
+                        onChange={(e) => specialtyHandler(e)}
+                        options={options}
                     />
                 </Form.Item>
             </Form>

@@ -69,14 +69,12 @@ app.post('/api/createDoctor', (req, res) => {
     })
 })
 
-app.post('/api/createSpecialty', (req, res) => {
-    const { name } = req.body
-    db.run('INSERT INTO specialties(name) VALUES(?)', [name], (err) => {
+app.get('/api/getDoctors', (req, res) => {
+    db.all('SELECT users.name, users.id, specialties.name AS specialtyName FROM users INNER JOIN specialties ON users.specialty = specialties.id WHERE users.type == 1', (err, list) => {
         if(err){
-            console.log(err)
-            res.status(500).send('Error del servidor')
+            res.status(500).send('error del servidor')
         }else{
-            res.status(200).send('Especialidad agregada')
+            res.status(200).send(list)
         }
     })
 })

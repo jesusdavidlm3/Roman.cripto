@@ -3,7 +3,7 @@ import LatPanel from "../components/LatPanel"
 import { Button, message } from "antd"
 import { appContext } from "../context/appContext"
 import { ChangePassword } from '../components/Modals'
-import { changePassword as setNewPassword } from '../client/client'
+import { getDoctors, changePassword as setNewPassword } from '../client/client'
 import { encrypt } from '../functions/hash'
 
 const Dashboard = () => {
@@ -12,7 +12,7 @@ const Dashboard = () => {
     const [regDoctorModal, setRegDoctorModal] = useState(false)
     const [newPasswordModal, setNewPasswordModal] = useState(false)
     const [messageApi, contextHolder] = message.useMessage()
-    const {userData} = useContext(appContext)
+    const {userData, setDoctorsList} = useContext(appContext)
 
     useEffect(() => {
         if(userData.lastPass == '0'){
@@ -28,6 +28,8 @@ const Dashboard = () => {
                 setNewPasswordModal(true)
             }
         }
+
+        getDoctorsList()
     }, [])
 
     useEffect(() => {
@@ -39,6 +41,12 @@ const Dashboard = () => {
             // Buscar citas del paciente
         }
     }, [])
+
+    const getDoctorsList = async () => {
+        let res = await getDoctors()
+        // console.log(res)
+        setDoctorsList(res.data)
+    }
 
     const submitNewPassword = async () => {
         const newPassword = document.getElementById('newPassword').value

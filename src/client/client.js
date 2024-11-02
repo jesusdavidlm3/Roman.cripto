@@ -30,9 +30,9 @@ export async function createDoctor(data){
     }
 }
 
-export async function getEmployes(){
+export async function getDoctors(){
     try{
-        let res = await axios.get(`${url}/api/getEmployes`)
+        let res = await axios.get(`${url}/api/getDoctors`)
         return res
     }catch(err){
         return err
@@ -42,15 +42,6 @@ export async function getEmployes(){
 export async function deleteUser(id){
     try{
         let res = await axios.delete(`${url}/api/deleteUser/${id}`)
-        return res
-    }catch(err){
-        return err
-    }
-}
-
-export async function createNewSpecialty(){
-    try{
-        let res = await axios.post(`${url}/api/createSpecialty`)
         return res
     }catch(err){
         return err

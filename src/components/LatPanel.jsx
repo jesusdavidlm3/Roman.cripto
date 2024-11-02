@@ -15,7 +15,6 @@ const LatPanel = () => {
             { type == 0 && <>
                 <Button type='primary' onClick={() => navigate('/AdminDocs')}>Administrar doctores</Button>
                 <Button type='primary' onClick={() => navigate('/History')}> Consultar historial</Button>
-                <Button type='primary' onClick={() => navigate('/AdminSpec')}> Administrar especialidades</Button>
                 <Button type='primary'> Agendar cita</Button>
             </> }
 
