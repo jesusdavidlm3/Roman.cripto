@@ -56,3 +56,12 @@ export async function changePassword(data) {
         return err
     }
 }
+
+export async function makeDate(data){
+    try{
+        let res = await axios.post(`${url}/api/makeDate`, data)
+        return res
+    }catch(err){
+        return err
+    }
+}

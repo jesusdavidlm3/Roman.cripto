@@ -2,7 +2,7 @@ import { Input, Button, message, Tooltip } from "antd"
 import { useContext, useState } from "react"
 import { NewDoctorModal } from "../components/Modals"
 import { encrypt } from "../functions/hash"
-import { createDoctor } from "../client/client"
+import { createDoctor, getDoctors } from "../client/client"
 import { appContext } from "../context/appContext"
 import { DeleteOutlined } from '@ant-design/icons'
 
@@ -30,7 +30,7 @@ const AdminDocs = () => {
             name: regName,
             address: regAddress,
             email: regEmail,
-            userName: regUserName,
+            userName: await encrypt(regUserName),
             password: await encrypt(regPassword),
             phone: regphone,
             birthDate: regBirthDate,
@@ -45,6 +45,9 @@ const AdminDocs = () => {
                 type: 'success',
                 content: 'Registro exitoso'
             })
+            let list = await getDoctors()
+            setDoctorsList(list.data)
+            setShowList(list.data)
         }else{
             messageApi.open({
                 type: 'error',

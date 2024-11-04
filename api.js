@@ -70,11 +70,24 @@ app.post('/api/createDoctor', (req, res) => {
 })
 
 app.get('/api/getDoctors', (req, res) => {
-    db.all('SELECT users.name, users.id, specialties.name AS specialtyName FROM users INNER JOIN specialties ON users.specialty = specialties.id WHERE users.type == 1', (err, list) => {
+    db.all('SELECT users.name, users.id, specialties.name AS specialtyName, specialties.id AS specialtyId FROM users INNER JOIN specialties ON users.specialty = specialties.id WHERE users.type == 1', (err, list) => {
         if(err){
             res.status(500).send('error del servidor')
         }else{
             res.status(200).send(list)
+        }
+    })
+})
+
+app.post('/api/makeDate', (req, res) => {
+    const {time, date, doctorId, patientId} = req.body
+    console.log(req.body)
+    db.run('INSERT INTO dates(time, date, patientId, doctorId) VALUES(?, ?, ?, ?)', [time, date, patientId, doctorId], (err) => {
+        if(err){
+            console.log(err)
+            res.status(500).send('error del servidor')
+        }else{
+            res.status(200).send('Cita registrada con exito')
         }
     })
 })

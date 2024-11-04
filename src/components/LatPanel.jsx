@@ -3,7 +3,7 @@ import { useContext } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { appContext } from '../context/appContext'
 
-const LatPanel = () => {
+const LatPanel = ({makeNewDate}) => {
 
     const navigate = useNavigate()
     const { userData } = useContext(appContext)
@@ -15,7 +15,7 @@ const LatPanel = () => {
             { type == 0 && <>
                 <Button type='primary' onClick={() => navigate('/AdminDocs')}>Administrar doctores</Button>
                 <Button type='primary' onClick={() => navigate('/History')}> Consultar historial</Button>
-                <Button type='primary'> Agendar cita</Button>
+                <Button type='primary' onClick={() => makeNewDate(true)}> Agendar cita</Button>
             </> }
 
             { type == 1 && <>
@@ -25,7 +25,7 @@ const LatPanel = () => {
             </> }
 
             { type == 2 && <>
-                <Button type='primary'>Agendar cita</Button>
+                <Button type='primary' onClick={() => makeNewDate(true)}>Agendar cita</Button>
                 <Button type='primary'>Editar mi perfil</Button>
                 <Button type='primary' onClick={() => navigate('/History')}>Mi historial</Button>
             </> }

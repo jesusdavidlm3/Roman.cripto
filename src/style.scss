@@ -139,6 +139,9 @@ body{
         border-radius: 15px;
         width: calc(100vw - 90px);
         height: 73vh;
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
 
         .ListItem{
             display: flex;

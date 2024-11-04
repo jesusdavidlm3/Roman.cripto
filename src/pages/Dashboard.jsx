@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import LatPanel from "../components/LatPanel"
 import { Button, message } from "antd"
 import { appContext } from "../context/appContext"
-import { ChangePassword } from '../components/Modals'
+import { ChangePassword, MakeDateModal } from '../components/Modals'
 import { getDoctors, changePassword as setNewPassword } from '../client/client'
 import { encrypt } from '../functions/hash'
 
@@ -11,6 +11,7 @@ const Dashboard = () => {
     const [showList, setShowList] = useState([])
     const [regDoctorModal, setRegDoctorModal] = useState(false)
     const [newPasswordModal, setNewPasswordModal] = useState(false)
+    const [makeNewDateModal, setMakeNewDateModal] = useState(false)
     const [messageApi, contextHolder] = message.useMessage()
     const {userData, setDoctorsList} = useContext(appContext)
 
@@ -70,7 +71,7 @@ const Dashboard = () => {
     return( 
         <div className="Dashboard">
             {contextHolder}
-            <LatPanel regDoctorModal={() => setRegDoctorModal(true)}/>
+            <LatPanel makeNewDate={setMakeNewDateModal}/>
             <div className="ListContainer">
                 <h1>Citas Agendadas</h1>
                 <div className="List">
@@ -88,6 +89,11 @@ const Dashboard = () => {
             <ChangePassword
                 open={newPasswordModal}
                 onOk={submitNewPassword}
+            />
+            <MakeDateModal
+                open={makeNewDateModal}
+                // onOk={}
+                onCancel={() => setMakeNewDateModal(false)}
             />
         </div>
     )

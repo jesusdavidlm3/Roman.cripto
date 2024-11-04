@@ -2,6 +2,9 @@ import { Modal, Form, Input, Button, DatePicker, TimePicker, Select, message } f
 import FormItem from "antd/es/form/FormItem"
 import { useContext, useEffect, useState } from "react"
 import { appContext } from "../context/appContext"
+import dayjs from 'dayjs';
+import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { makeDate } from '../client/client'
 
 export const RegModal = ({open, onOk, onCancel, BirthDateControl}) => {
     return(
@@ -64,7 +67,7 @@ export const NewDoctorModal = ({birthDateReg, onOk, onCancel, open, specialtyHan
                 <Form.Item name ='regEmail' rules={[{required: true, message: '', type: 'email'}]}>
                     <Input placeholder="Correo"/>
                 </Form.Item>
-                <Form.Item name ='regUserName' rules={[{required: true, message: '', type: 'email'}]}>
+                <Form.Item name ='regUserName' rules={[{required: true, message: ''}]}>
                     <Input placeholder="Usuario"/>
                 </Form.Item>
                 <Form.Item name ='regPassword' rules={[{required: true, message: ''}]}>
@@ -81,18 +84,6 @@ export const NewDoctorModal = ({birthDateReg, onOk, onCancel, open, specialtyHan
                         onChange={(e) => specialtyHandler(e)}
                         options={options}
                     />
-                </Form.Item>
-            </Form>
-        </Modal>
-    )
-}
-
-export const NewSpecialty = ({open, onCancel, onOk}) => {
-    return(
-        <Modal title='Agreggar nueva especialidad' open={open} onCancel={onCancel} onOk={onOk} destroyOnClose>
-            <Form>
-                <Form.Item name='specName'>
-                    <Input placeholder="Nombre de la especialidad"/>
                 </Form.Item>
             </Form>
         </Modal>
@@ -117,6 +108,80 @@ export const ChangePassword = ({open, onOk}) => {
                 <FormItem name='newPassword'>
                     <Input.Password placeholder="Contraseña Nueva"/>
                 </FormItem>
+            </Form>
+        </Modal>
+    )
+}
+
+export const MakeDateModal = ({open, onCancel}) => {
+
+    const { specialties, doctorsList, userData } = useContext(appContext)
+
+    const [selectedSpecialty, setSelectedSpecialty] = useState(-1)
+    const [SelectedDoctor, setSelectedDoctor] = useState(0)
+    const [selectedDate, setSelectedDate] = useState('')
+    const [selectedTime, setSelectedTime] = useState('')
+
+    const [activeDoctorSelec, setActiveDoctorSelect] = useState(false)
+    const [aviableDoctors, setAviableDoctors] = useState([])
+    const aviableSpecialties = specialties.map(item => ({
+        value: item.id,
+        label: item.name
+    }))
+
+    const specialtyChange = (e) => {
+        setSelectedSpecialty(e)
+        setActiveDoctorSelect(true)
+        let filteredDoctors = doctorsList.filter(item => item.specialtyId == e)
+        setAviableDoctors(filteredDoctors.map(item => ({
+            value: item.id,
+            label: item.name
+        })))
+        console.log(aviableDoctors)
+    }
+
+    const submitDate = async () => {
+        const data = {
+            date: selectedDate,
+            time: selectedTime,
+            patientId: userData.id,
+            doctorId: SelectedDoctor
+        }
+        let res = await makeDate(data)
+        if(res.status == 200){
+            onCancel()
+        }
+    }
+
+    return(
+        <Modal title='Agendar cita' destroyOnClose onOk={submitDate} onCancel={onCancel} open={open}>
+            <Form>
+                <Form.Item label='Especialidad'>
+                    <Select
+                        onChange={specialtyChange}
+                        options={aviableSpecialties}
+                    />
+                </Form.Item>
+                <Form.Item label='Doctor'>
+                    <Select
+                        onChange={(e) => setSelectedDoctor(e)}
+                        options={aviableDoctors}
+                        disabled={!activeDoctorSelec}
+                    />
+                </Form.Item>
+                <Form.Item label='Fecha: '>
+                    <DatePicker
+                        onChange={(a, b) => setSelectedDate(b)}
+                    />
+                </Form.Item>
+                <Form.Item label='Hora: '>
+                    <TimePicker
+                        onChange={(a, b) => setSelectedTime(b)}
+                        defaultOpenValue={dayjs('00:00', 'HH:mm')}
+                        format='HH:mm'
+                        use12Hours
+                    />
+                </Form.Item>
             </Form>
         </Modal>
     )
