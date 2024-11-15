@@ -12,7 +12,6 @@ const Home = () => {
     const [messageApi, contextHolder] = message.useMessage()
     const navigate = useNavigate()
     const [modalReg, setModalReg] = useState(false)
-    const [regBirthDate, setRegBirthDate] = useState('')
 
     const sendLogin = async () => {
 
@@ -43,7 +42,7 @@ const Home = () => {
         const address = document.getElementById('regAddress').value
         const phone = document.getElementById('regPhone').value
         const email = document.getElementById('regEmail').value
-        const birthDate = regBirthDate
+        const birthDate = document.getElementById('regBirthDate').value
         const password = document.getElementById('regPassword').value
         const lastPass = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`
 
@@ -54,7 +53,7 @@ const Home = () => {
             address: address,
             phone: phone,
             email: email,
-            birthDate: `${birthDate.$D}/${birthDate.$M + 1}/${birthDate.$y}`,
+            birthDate: birthDate,
             password: await encrypt(password),
             type: 2,
             lastPass: lastPass
@@ -91,7 +90,7 @@ const Home = () => {
                 <Button className='Button' onClick={sendLogin} type='primary'>Iniciar sesion</Button>
                 <Button className='Button' onClick={() => setModalReg(true)}>Registrarse</Button>
             </Form>
-            <RegModal open={modalReg} onCancel={() => setModalReg(false)} onOk={() => sendRegister()} BirthDateControl={setRegBirthDate}/>
+            <RegModal open={modalReg} onCancel={() => setModalReg(false)} onOk={() => sendRegister()}/>
         </div>
     )
 }

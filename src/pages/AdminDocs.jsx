@@ -24,6 +24,7 @@ const AdminDocs = () => {
         const regphone = document.getElementById('regPhone').value
         const regBirthDate = document.getElementById('regBirthDate').value
         const regUserName = document.getElementById('regUserName').value
+        const lastPass = `${new Date().getDate()}/${new Date().getMonth()+1}/${new Date().getFullYear()}`
 
         const data = {
             id: regId,
@@ -36,6 +37,7 @@ const AdminDocs = () => {
             birthDate: regBirthDate,
             specialty: selectedSpecialty,
             type: 1,
+            lastPass: lastPass,
         }
 
         let res = await createDoctor(data)

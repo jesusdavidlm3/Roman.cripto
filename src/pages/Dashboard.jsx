@@ -1,10 +1,12 @@
 import { useContext, useEffect, useState } from "react"
 import LatPanel from "../components/LatPanel"
-import { Button, message } from "antd"
+import { Button, message, Tooltip } from "antd"
 import { appContext } from "../context/appContext"
 import { ChangePassword, MakeDateModal } from '../components/Modals'
-import { getDoctors, changePassword as setNewPassword } from '../client/client'
+import { getDoctors, changePassword as setNewPassword, getPatientDates } from '../client/client'
 import { encrypt } from '../functions/hash'
+import { searchById } from '../functions/lists'
+import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
 
 const Dashboard = () => {
 
@@ -13,7 +15,7 @@ const Dashboard = () => {
     const [newPasswordModal, setNewPasswordModal] = useState(false)
     const [makeNewDateModal, setMakeNewDateModal] = useState(false)
     const [messageApi, contextHolder] = message.useMessage()
-    const {userData, setDoctorsList} = useContext(appContext)
+    const {userData, setDoctorsList, specialties} = useContext(appContext)
 
     useEffect(() => {
         if(userData.lastPass == '0'){
@@ -34,14 +36,19 @@ const Dashboard = () => {
     }, [])
 
     useEffect(() => {
+        getDatesList()
+    }, [])
+
+    async function getDatesList() {
         if(userData == 0){
             // Buscar todas las citas disponibles
         }else if(userData.type == 1){
             // Buscar Citas del doctor
         }else if(userData.type == 2){
-            // Buscar citas del paciente
+            let res = await getPatientDates({patientId: userData.id})
+            setShowList(res.data)
         }
-    }, [])
+    }
 
     const getDoctorsList = async () => {
         let res = await getDoctors()
@@ -77,10 +84,19 @@ const Dashboard = () => {
                 <div className="List">
                     { showList.map((item) => (
                         <div className="ListItem" key={item.id}>
-                            <h4>Titulo</h4>
-                            <div className="Buttons">
-                                <Button type="primary">Editar</Button>
-                                <Button variant="solid" color="danger">Cancelar</Button>
+                            <div className='info'>
+                                <h3>Doctor: {item.doctorName}</h3>
+                                <h4>{searchById(specialties, item.specialty)}</h4>
+                                <h4>Hora: {item.time}</h4>
+                                <h4>Fecha: {item.date}</h4>
+                            </div>
+                            <div className='buttons'>
+                                <Tooltip title='Editar'>
+                                    <Button shape='circle' icon={<EditOutlined/>} size="large"/>
+                                </Tooltip>
+                                <Tooltip title='Eliminar'>
+                                    <Button shape='circle' color="danger" variant="solid"  icon={<DeleteOutlined/>} size="large"/>
+                                </Tooltip>
                             </div>
                         </div>
                     )) }

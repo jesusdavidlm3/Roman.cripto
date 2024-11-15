@@ -65,3 +65,12 @@ export async function makeDate(data){
         return err
     }
 }
+
+export async function getPatientDates(data){
+    try{
+        let res = axios.post(`${url}/api/getPatientDates`, data)
+        return res
+    }catch(err){
+        return err
+    }
+}
