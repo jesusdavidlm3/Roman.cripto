@@ -94,7 +94,6 @@ app.post('/api/makeDate', (req, res) => {
 
 app.post('/api/getPatientDates', (req, res) => {
     const { patientId } = req.body
-    console.log(patientId)
     db.all(`
         SELECT dates.date, dates.time, dates.id as dateId, users.specialty, users.name AS doctorName FROM dates JOIN users ON dates.doctorId = users.id WHERE dates.patientId = ?
         `, [patientId], (err, list) => {
@@ -123,7 +122,6 @@ app.post('/api/getDoctorsDate', (req, res) => {
 
 app.post('/api/getAllDates', (req, res) => {
     const { patientId } = req.body
-    console.log(patientId)
     db.all(`
         SELECT dates.date, dates.time, dates.id as dateId, users.specialty, users.name AS doctorName FROM dates JOIN users ON dates.doctorId = users.id WHERE dates.patientId = ?
         `, [patientId], (err, list) => {
@@ -132,6 +130,18 @@ app.post('/api/getAllDates', (req, res) => {
             res.status(500).send('error del servidor')
         }else{
             res.status(200).send(list)
+        }
+    })
+})
+
+app.delete('/api/deleteDate/:id', (req, res) => {
+    const id = req.params.id
+    console.log(id)
+    db.run('DELETE FROM dates WHERE id = ?', [id], (err) => {
+        if(err){
+            res.status(500).send('error del servidor')
+        }else{
+            res.status(200).send('Cita eliminada con exito')
         }
     })
 })

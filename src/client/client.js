@@ -92,3 +92,12 @@ export async function getAllDates(data){
         return err
     }
 }
+
+export async function deleteDate(id) {
+    try{
+        let res = await axios.delete(`${url}/api/deleteDate/${id}`)
+        return res
+    }catch(err){
+        return err
+    }
+}

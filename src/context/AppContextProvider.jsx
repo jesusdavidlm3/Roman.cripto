@@ -1,8 +1,10 @@
 import { appContext } from './appContext'
 import { useState } from 'react'
+import { message } from 'antd'
 
 const AppContextProvider = ({children}) => {
 
+    const [messageApi, contextHolder] = message.useMessage()
     const [userData, setUserData] = useState('')
     const [logged, setLogged] = useState(false)
     const [specialties, setSpecialties] = useState([
@@ -22,7 +24,9 @@ const AppContextProvider = ({children}) => {
             setLogged,
             specialties,
             doctorsList,
-            setDoctorsList
+            setDoctorsList,
+            messageApi,
+            contextHolder,
         }}>
             {children}
         </appContext.Provider>

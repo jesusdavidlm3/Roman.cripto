@@ -3,7 +3,7 @@ import LatPanel from "../components/LatPanel"
 import { Button, message, Tooltip } from "antd"
 import { appContext } from "../context/appContext"
 import { ChangePassword, MakeDateModal } from '../components/Modals'
-import { getDoctors, changePassword as setNewPassword, getPatientDates, getDoctorsDate, getAllDates } from '../client/client'
+import { getDoctors, changePassword as setNewPassword, getPatientDates, getDoctorsDate, getAllDates, deleteDate } from '../client/client'
 import { encrypt } from '../functions/hash'
 import { searchById } from '../functions/lists'
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
@@ -14,8 +14,7 @@ const Dashboard = () => {
     const [regDoctorModal, setRegDoctorModal] = useState(false)
     const [newPasswordModal, setNewPasswordModal] = useState(false)
     const [makeNewDateModal, setMakeNewDateModal] = useState(false)
-    const [messageApi, contextHolder] = message.useMessage()
-    const {userData, setDoctorsList, specialties} = useContext(appContext)
+    const {userData, setDoctorsList, specialties, messageApi} = useContext(appContext)
 
     useEffect(() => {
         if(userData.lastPass == '0'){
@@ -76,9 +75,24 @@ const Dashboard = () => {
         }
     }
 
+    const submitDelete = async (id) => {
+        let res = await deleteDate(id)
+        if(res.status == 200){
+            getDatesList()
+            messageApi.open({
+                type: 'success',
+                content: 'Eliminado con exito'
+            })
+        }else{
+            messageApi.open({
+                type: 'error',
+                content: 'error al eliminar'
+            })
+        }
+    }
+
     return( 
         <div className="Dashboard">
-            {contextHolder}
             <LatPanel makeNewDate={setMakeNewDateModal} />
             <div className="ListContainer">
                 <h1>Citas Agendadas</h1>
@@ -99,7 +113,7 @@ const Dashboard = () => {
                                     <Button shape='circle' icon={<EditOutlined/>} size="large"/>
                                 </Tooltip>
                                 <Tooltip title='Eliminar'>
-                                    <Button shape='circle' color="danger" variant="solid"  icon={<DeleteOutlined/>} size="large"/>
+                                    <Button onClick={() => submitDelete(item.dateId)} shape='circle' color="danger" variant="solid"  icon={<DeleteOutlined/>} size="large"/>
                                 </Tooltip>
                             </div>
                         </div>
