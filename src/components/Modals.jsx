@@ -113,7 +113,7 @@ export const ChangePassword = ({open, onOk}) => {
     )
 }
 
-export const MakeDateModal = ({open, onCancel}) => {
+export const MakeDateModal = ({open, onCancel, listUpdate}) => {
 
     const { specialties, doctorsList, userData } = useContext(appContext)
 
@@ -149,6 +149,7 @@ export const MakeDateModal = ({open, onCancel}) => {
         }
         let res = await makeDate(data)
         if(res.status == 200){
+            listUpdate()
             onCancel()
         }
     }

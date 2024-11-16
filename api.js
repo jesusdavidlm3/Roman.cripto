@@ -107,6 +107,35 @@ app.post('/api/getPatientDates', (req, res) => {
     })
 })
 
+app.post('/api/getDoctorsDate', (req, res) => {
+    const { doctorId } = req.body
+    db.all(`
+        SELECT dates.date, dates.time, dates.id as dateId, users.specialty, users.name AS patientName FROM dates JOIN users ON dates.patientId = users.id WHERE dates.doctorId = ?
+        `, [doctorId], (err, list) => {
+        if(err){
+            console.log(err)
+            res.status(500).send('error del servidor')
+        }else{
+            res.status(200).send(list)
+        }
+    })
+})
+
+app.post('/api/getAllDates', (req, res) => {
+    const { patientId } = req.body
+    console.log(patientId)
+    db.all(`
+        SELECT dates.date, dates.time, dates.id as dateId, users.specialty, users.name AS doctorName FROM dates JOIN users ON dates.doctorId = users.id WHERE dates.patientId = ?
+        `, [patientId], (err, list) => {
+        if(err){
+            console.log(err)
+            res.status(500).send('error del servidor')
+        }else{
+            res.status(200).send(list)
+        }
+    })
+})
+
 const server = createServer(app)
 server.listen(port, () => {
 console.log(`su puerto es: ${port}`)

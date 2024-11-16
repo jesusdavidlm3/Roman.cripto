@@ -3,7 +3,7 @@ import LatPanel from "../components/LatPanel"
 import { Button, message, Tooltip } from "antd"
 import { appContext } from "../context/appContext"
 import { ChangePassword, MakeDateModal } from '../components/Modals'
-import { getDoctors, changePassword as setNewPassword, getPatientDates } from '../client/client'
+import { getDoctors, changePassword as setNewPassword, getPatientDates, getDoctorsDate, getAllDates } from '../client/client'
 import { encrypt } from '../functions/hash'
 import { searchById } from '../functions/lists'
 import { EditOutlined, DeleteOutlined } from "@ant-design/icons"
@@ -43,7 +43,8 @@ const Dashboard = () => {
         if(userData == 0){
             // Buscar todas las citas disponibles
         }else if(userData.type == 1){
-            // Buscar Citas del doctor
+            let res = await getDoctorsDate({doctorId: userData.id})
+            setShowList(res.data)
         }else if(userData.type == 2){
             let res = await getPatientDates({patientId: userData.id})
             setShowList(res.data)
@@ -78,15 +79,18 @@ const Dashboard = () => {
     return( 
         <div className="Dashboard">
             {contextHolder}
-            <LatPanel makeNewDate={setMakeNewDateModal}/>
+            <LatPanel makeNewDate={setMakeNewDateModal} />
             <div className="ListContainer">
                 <h1>Citas Agendadas</h1>
                 <div className="List">
                     { showList.map((item) => (
                         <div className="ListItem" key={item.id}>
                             <div className='info'>
-                                <h3>Doctor: {item.doctorName}</h3>
-                                <h4>{searchById(specialties, item.specialty)}</h4>
+                                {item.doctorName && (<>
+                                    <h3>Doctor: {item.doctorName}</h3>
+                                    <h4>{searchById(specialties, item.specialty)}</h4>
+                                </>)}
+                                {item.patientName && <h3>Paciente: {item.patientName}</h3>}
                                 <h4>Hora: {item.time}</h4>
                                 <h4>Fecha: {item.date}</h4>
                             </div>
@@ -108,8 +112,8 @@ const Dashboard = () => {
             />
             <MakeDateModal
                 open={makeNewDateModal}
-                // onOk={}
                 onCancel={() => setMakeNewDateModal(false)}
+                listUpdate={() => getDatesList()}
             />
         </div>
     )
