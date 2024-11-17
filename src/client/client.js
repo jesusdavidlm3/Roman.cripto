@@ -84,9 +84,9 @@ export async function getDoctorsDate(data){
     }
 }
 
-export async function getAllDates(data){
+export async function getAllDates(){
     try{
-        let res = axios.post(`${url}/api/getAllDates`, data)
+        let res = axios.get(`${url}/api/getAllDates`)
         return res
     }catch(err){
         return err

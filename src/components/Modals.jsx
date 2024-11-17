@@ -1,4 +1,4 @@
-import { Modal, Form, Input, Button, DatePicker, TimePicker, Select, message } from "antd"
+import { Modal, Form, Input, Button, DatePicker, TimePicker, Select, message, InputNumber } from "antd"
 import FormItem from "antd/es/form/FormItem"
 import { useContext, useEffect, useState } from "react"
 import { appContext } from "../context/appContext"
@@ -141,10 +141,17 @@ export const MakeDateModal = ({open, onCancel, listUpdate}) => {
     }
 
     const submitDate = async () => {
+        const patientIdField = document.getElementById('patientId').value
+        let patientId
+        if(userData.type == 0){
+            patientId = patientIdField
+        }else{
+            patientId = userData.id
+        }
         const data = {
             date: selectedDate,
             time: selectedTime,
-            patientId: userData.id,
+            patientId: patientId,
             doctorId: SelectedDoctor
         }
         let res = await makeDate(data)
@@ -157,6 +164,11 @@ export const MakeDateModal = ({open, onCancel, listUpdate}) => {
     return(
         <Modal title='Agendar cita' destroyOnClose onOk={submitDate} onCancel={onCancel} open={open}>
             <Form>
+                { userData.type == 0 && (
+                    <Form.Item name='patientId'>
+                        <InputNumber placeholder="Cedula del paciente" style={{width: '100%'}}/>
+                    </Form.Item>
+                ) }
                 <Form.Item label='Especialidad'>
                     <Select
                         onChange={specialtyChange}
@@ -170,6 +182,41 @@ export const MakeDateModal = ({open, onCancel, listUpdate}) => {
                         disabled={!activeDoctorSelec}
                     />
                 </Form.Item>
+                <Form.Item label='Fecha: '>
+                    <DatePicker
+                        onChange={(a, b) => setSelectedDate(b)}
+                    />
+                </Form.Item>
+                <Form.Item label='Hora: '>
+                    <TimePicker
+                        onChange={(a, b) => setSelectedTime(b)}
+                        defaultOpenValue={dayjs('00:00', 'HH:mm')}
+                        format='HH:mm'
+                        use12Hours
+                    />
+                </Form.Item>
+            </Form>
+        </Modal>
+    )
+}
+
+export const EditDateModal = ({onCancel, open, info}) => {
+
+    console.log(info)
+    const [selectedDate, setSelectedDate] = useState('')
+    const [selectedTime, setSelectedTime] = useState('')
+
+    const submitEdit = () => {
+        const data = {
+            date: selectedDate,
+            time: selectedTime,
+            id: info.dateId
+        }
+    }
+
+    return(
+        <Modal title = 'Editar cita' destroyOnClose onOk={onOk} onCancel={onCancel} open={open}>
+            <Form>
                 <Form.Item label='Fecha: '>
                     <DatePicker
                         onChange={(a, b) => setSelectedDate(b)}

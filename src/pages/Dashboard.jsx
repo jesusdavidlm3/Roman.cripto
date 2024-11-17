@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import LatPanel from "../components/LatPanel"
 import { Button, message, Tooltip } from "antd"
 import { appContext } from "../context/appContext"
-import { ChangePassword, MakeDateModal } from '../components/Modals'
+import { ChangePassword, MakeDateModal, EditDateModal as EditDate } from '../components/Modals'
 import { getDoctors, changePassword as setNewPassword, getPatientDates, getDoctorsDate, getAllDates, deleteDate } from '../client/client'
 import { encrypt } from '../functions/hash'
 import { searchById } from '../functions/lists'
@@ -14,6 +14,8 @@ const Dashboard = () => {
     const [regDoctorModal, setRegDoctorModal] = useState(false)
     const [newPasswordModal, setNewPasswordModal] = useState(false)
     const [makeNewDateModal, setMakeNewDateModal] = useState(false)
+    const [editDateModal, setEditDateModal] = useState(false)
+    const [selectedDate, setSelectedDate] = useState('')
     const {userData, setDoctorsList, specialties, messageApi} = useContext(appContext)
 
     useEffect(() => {
@@ -39,8 +41,10 @@ const Dashboard = () => {
     }, [])
 
     async function getDatesList() {
-        if(userData == 0){
-            // Buscar todas las citas disponibles
+        if(userData.type == 0){
+            // let res = await getAllDates()
+            // console.log(res)
+            // setShowList(res.data)
         }else if(userData.type == 1){
             let res = await getDoctorsDate({doctorId: userData.id})
             setShowList(res.data)
@@ -110,7 +114,7 @@ const Dashboard = () => {
                             </div>
                             <div className='buttons'>
                                 <Tooltip title='Editar'>
-                                    <Button shape='circle' icon={<EditOutlined/>} size="large"/>
+                                    <Button onClick={() => {setSelectedDate(item); setEditDateModal(true)}} shape='circle' icon={<EditOutlined/>} size="large"/>
                                 </Tooltip>
                                 <Tooltip title='Eliminar'>
                                     <Button onClick={() => submitDelete(item.dateId)} shape='circle' color="danger" variant="solid"  icon={<DeleteOutlined/>} size="large"/>
@@ -128,6 +132,12 @@ const Dashboard = () => {
                 open={makeNewDateModal}
                 onCancel={() => setMakeNewDateModal(false)}
                 listUpdate={() => getDatesList()}
+            />
+            <EditDate
+                open={editDateModal}
+                // onOk={}
+                onCancel={() => setEditDateModal(true)}
+                info={selectedDate}
             />
         </div>
     )

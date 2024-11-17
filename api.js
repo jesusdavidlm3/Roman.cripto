@@ -120,11 +120,10 @@ app.post('/api/getDoctorsDate', (req, res) => {
     })
 })
 
-app.post('/api/getAllDates', (req, res) => {
-    const { patientId } = req.body
+app.get('/api/getAllDates', (req, res) => {
     db.all(`
-        SELECT dates.date, dates.time, dates.id as dateId, users.specialty, users.name AS doctorName FROM dates JOIN users ON dates.doctorId = users.id WHERE dates.patientId = ?
-        `, [patientId], (err, list) => {
+        SELECT dates.date, dates.time, dates.id as dateId, uDoctor.name AS doctorName, uPatient.name AS patientName FROM dates JOIN users uDoctor ON dates.doctorId = users.id JOIN users uPatient ON dates.patientId = users.id
+        `, (err, list) => {
         if(err){
             console.log(err)
             res.status(500).send('error del servidor')
@@ -145,6 +144,8 @@ app.delete('/api/deleteDate/:id', (req, res) => {
         }
     })
 })
+
+app.patch('/api/editDate')
 
 const server = createServer(app)
 server.listen(port, () => {
