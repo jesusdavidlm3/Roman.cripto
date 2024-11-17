@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react"
 import LatPanel from "../components/LatPanel"
 import { Button, message, Tooltip } from "antd"
 import { appContext } from "../context/appContext"
-import { ChangePassword, MakeDateModal, EditDateModal as EditDate } from '../components/Modals'
+import { ChangePassword, MakeDateModal, EditDateModal as EditDate, AddEntryModal as AddEntry } from '../components/Modals'
 import { getDoctors, changePassword as setNewPassword, getPatientDates, getDoctorsDate, getAllDates, deleteDate } from '../client/client'
 import { encrypt } from '../functions/hash'
 import { searchById } from '../functions/lists'
@@ -15,6 +15,7 @@ const Dashboard = () => {
     const [newPasswordModal, setNewPasswordModal] = useState(false)
     const [makeNewDateModal, setMakeNewDateModal] = useState(false)
     const [editDateModal, setEditDateModal] = useState(false)
+    const [addEntryModal, setAddEntryModal] = useState(false)
     const [selectedDate, setSelectedDate] = useState('')
     const {userData, setDoctorsList, specialties, messageApi} = useContext(appContext)
 
@@ -97,7 +98,7 @@ const Dashboard = () => {
 
     return( 
         <div className="Dashboard">
-            <LatPanel makeNewDate={setMakeNewDateModal} />
+            <LatPanel makeNewDate={setMakeNewDateModal} addEntry={setAddEntryModal}/>
             <div className="ListContainer">
                 <h1>Citas Agendadas</h1>
                 <div className="List">
@@ -136,8 +137,13 @@ const Dashboard = () => {
             <EditDate
                 open={editDateModal}
                 // onOk={}
-                onCancel={() => setEditDateModal(true)}
+                onCancel={() => setEditDateModal(false)}
                 info={selectedDate}
+                listUpdate={() => getDatesList()}
+            />
+            <AddEntry 
+                open={addEntryModal}
+                onCancel={() => setAddEntryModal(false)}
             />
         </div>
     )

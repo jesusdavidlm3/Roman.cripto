@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react"
 import { appContext } from "../context/appContext"
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
-import { makeDate } from '../client/client'
+import { makeDate, editDate, addEntry } from '../client/client'
 
 export const RegModal = ({open, onOk, onCancel, BirthDateControl}) => {
     return(
@@ -200,22 +200,38 @@ export const MakeDateModal = ({open, onCancel, listUpdate}) => {
     )
 }
 
-export const EditDateModal = ({onCancel, open, info}) => {
+export const EditDateModal = ({onCancel, open, info, listUpdate}) => {
 
-    console.log(info)
+    const { messageApi } = useContext(appContext)
     const [selectedDate, setSelectedDate] = useState('')
     const [selectedTime, setSelectedTime] = useState('')
 
-    const submitEdit = () => {
+    const submitEdit = async () => {
+
         const data = {
-            date: selectedDate,
-            time: selectedTime,
+            newDate: selectedDate,
+            newTime: selectedTime,
             id: info.dateId
+        }
+
+        let res = await editDate(data)
+        if(res.status == 200){
+            listUpdate()
+            onCancel()
+            messageApi.open({
+                type: 'success',
+                content: 'Cita editada con exito'
+            })
+        }else{
+            messageApi.open({
+                type: 'error',
+                content: 'ah ocurrido un error'
+            })
         }
     }
 
     return(
-        <Modal title = 'Editar cita' destroyOnClose onOk={onOk} onCancel={onCancel} open={open}>
+        <Modal title = 'Editar cita' destroyOnClose onCancel={onCancel} onOk={submitEdit} open={open}>
             <Form>
                 <Form.Item label='Fecha: '>
                     <DatePicker
@@ -229,6 +245,50 @@ export const EditDateModal = ({onCancel, open, info}) => {
                         format='HH:mm'
                         use12Hours
                     />
+                </Form.Item>
+            </Form>
+        </Modal>
+    )
+}
+
+export const AddEntryModal = ({open, onCancel, }) => {
+
+    const { userData, messageApi } = useContext(appContext)
+
+    const submitNewEntry = async () => {
+        const idField = document.getElementById('idField').value
+        const descriptionField = document.getElementById('descriptionField').value
+
+        const data = {
+            doctorId: userData.id,
+            patientId: idField,
+            description: descriptionField,
+            date: `${new Date().getDate()}-${new Date().getMonth() + 1}-${new Date().getFullYear()}`
+        }
+
+        let res = await addEntry(data)
+        if(res.status == 200){
+            onCancel()
+            messageApi.open({
+                type: 'success',
+                content: 'Entrada registrada'
+            })
+        }else{
+            messageApi.open({
+                type: 'error',
+                content: 'ah ocurrido un error'
+            })
+        }
+    }
+
+    return(
+        <Modal destroyOnClose title='Agregar registro a la historia' onOk={submitNewEntry} onCancel={onCancel} open={open}>
+            <Form>
+                <Form.Item name='idField'>
+                    <InputNumber placeholder="Cedula del paciente" style={{width: '100%'}}/>
+                </Form.Item>
+                <Form.Item name='descriptionField'>
+                    <Input.TextArea placeholder="Descripcion del registro" autoSize={true}/>
                 </Form.Item>
             </Form>
         </Modal>

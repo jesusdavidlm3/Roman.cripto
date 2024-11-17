@@ -101,3 +101,21 @@ export async function deleteDate(id) {
         return err
     }
 }
+
+export async function editDate(data) {
+    try{
+        let res = await axios.patch(`${url}/api/editDate`, data)
+        return res
+    }catch(err){
+        return err
+    }
+}
+
+export async function addEntry(data) {
+    try{
+        let res = await axios.post(`${url}/api/addEntry`, data)
+        return res
+    }catch(err){
+        return err
+    }
+}

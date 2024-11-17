@@ -145,7 +145,29 @@ app.delete('/api/deleteDate/:id', (req, res) => {
     })
 })
 
-app.patch('/api/editDate')
+app.patch('/api/editDate', (req, res) => {
+    const {id, newDate, newTime} = req.body
+    db.run('UPDATE dates SET date = ?, time = ? WHERE id = ?', [newDate, newTime, id], (err) => {
+        if(err){
+            console.log(err)
+            res.status(500).send('error del servidor')
+        }else{
+            res.status(200).send('Editado con exito')
+        }
+    })
+})
+
+app.post('/api/addEntry', (req, res) => {
+    const { patientId, doctorId, date, description } = req.body
+    db.run('INSERT INTO regs(description, patientId, doctorId, date) VALUES(?, ?, ?, ?)', [description, patientId, doctorId, date], (err) => {
+        if(err){
+            console.log(err)
+            res.status(500).send('error del servidor')
+        }else{
+            res.status(200).send('Registro agregado con exito')
+        }
+    })
+})
 
 const server = createServer(app)
 server.listen(port, () => {
