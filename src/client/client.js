@@ -119,3 +119,21 @@ export async function addEntry(data) {
         return err
     }
 }
+
+export async function getHistory(id){
+    try{
+        let res = axios.get(`${url}/api/getHistory/${id}`)
+        return res
+    }catch(err){
+        return err
+    }
+} 
+
+export async function deleteDoctor(id) {
+    try{
+        let res = await axios.delete(`${url}/api/deleteDoctor/${id}`)
+        return res
+    }catch(err){
+        return err
+    }
+}

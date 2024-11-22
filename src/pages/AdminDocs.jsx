@@ -2,7 +2,7 @@ import { Input, Button, message, Tooltip } from "antd"
 import { useContext, useState } from "react"
 import { NewDoctorModal } from "../components/Modals"
 import { encrypt } from "../functions/hash"
-import { createDoctor, getDoctors } from "../client/client"
+import { createDoctor, getDoctors, deleteDoctor } from "../client/client"
 import { appContext } from "../context/appContext"
 import { DeleteOutlined } from '@ant-design/icons'
 
@@ -58,6 +58,24 @@ const AdminDocs = () => {
         }
     }
 
+    const handleDelete = async (id) => {
+        let res = await deleteDoctor(id)
+        if(res.status == 200){
+            messageApi.open({
+                type: 'success',
+                content: 'Eliminado con exito'
+            })
+            let list = await getDoctors()
+            setDoctorsList(list.data)
+            setShowList(list.data)
+        }else{
+            messageApi.open({
+                type: 'error',
+                content: 'ah ocurrido un error'
+            })
+        }
+    }
+
     return(
         <div className="AdminDocs">
             {contextHolder}
@@ -76,11 +94,17 @@ const AdminDocs = () => {
 
                         <div className="Buttons">
                             <Tooltip title='Eliminar'>
-                                <Button shape="circle" icon={<DeleteOutlined />}/>
+                                <Button shape="circle" icon={<DeleteOutlined />} onClick={() => handleDelete(item.id)}/>
                             </Tooltip>
                         </div>
                     </div>
                 ))}
+                <Tooltip title='
+                    En este modulo usted podra agregar o eliminar doctores a la base de datos con los respectivos botones de cada accion.
+                    Solo es posible eliminar un doctor si este no posee citas asignadas.
+                '>
+                    <p style={{textAlign: 'center'}}>Ayuda</p>
+                </Tooltip>
             </div>
             <NewDoctorModal
                 open={newDocModal}

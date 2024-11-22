@@ -1,4 +1,4 @@
-import { Modal, Form, Input, Button, DatePicker, TimePicker, Select, message, InputNumber } from "antd"
+import { Modal, Form, Input, Tooltip, DatePicker, TimePicker, Select, message, InputNumber } from "antd"
 import FormItem from "antd/es/form/FormItem"
 import { useContext, useEffect, useState } from "react"
 import { appContext } from "../context/appContext"
@@ -35,6 +35,9 @@ export const RegModal = ({open, onOk, onCancel, BirthDateControl}) => {
                     <Input.Password placeholder="Contraseña"/>
                 </Form.Item>
             </Form>
+            <Tooltip title='En este modulo debe ingresar la informacion solicitada para registrarse y posteriormente ingresar al sistema con el usuario y clave que ingreso'>
+                <p style={{textAlign: 'center'}}>Ayuda</p>
+            </Tooltip>
         </Modal>
     )
 }
@@ -86,6 +89,12 @@ export const NewDoctorModal = ({birthDateReg, onOk, onCancel, open, specialtyHan
                     />
                 </Form.Item>
             </Form>
+            <Tooltip title='
+                En esta ventana usted podra agregar un nuevo doctor ingresando la informacion que corresponde a este
+                y luego presionando el boton "ok" al final de la ventana.
+            '>
+                <p style={{textAlign: 'center'}}>Ayuda</p>
+            </Tooltip>
         </Modal>
     )
 }
@@ -109,6 +118,11 @@ export const ChangePassword = ({open, onOk}) => {
                     <Input.Password placeholder="Contraseña Nueva"/>
                 </FormItem>
             </Form>
+            <Tooltip title='
+                En este modal debera ingresar la que sera su nueva contraseña ya que la anterior ah expirado su tiempo de duracion.
+            '>
+                <p style={{textAlign: 'center'}}>Ayuda</p>
+            </Tooltip>
         </Modal>
     )
 }
@@ -141,9 +155,9 @@ export const MakeDateModal = ({open, onCancel, listUpdate}) => {
     }
 
     const submitDate = async () => {
-        const patientIdField = document.getElementById('patientId').value
         let patientId
         if(userData.type == 0){
+            const patientIdField = document.getElementById('patientId').value
             patientId = patientIdField
         }else{
             patientId = userData.id
@@ -195,6 +209,12 @@ export const MakeDateModal = ({open, onCancel, listUpdate}) => {
                         use12Hours
                     />
                 </Form.Item>
+                <Tooltip title='
+                    En esta ventana usted podra agendar una cita entre un paciente y un doctor ingresando los datos correspondientes
+                    para asi poder visualizar la cita desde la aplicacion para doctores o para pacientes.
+                '>
+                    <p style={{textAlign: 'center'}}>Ayuda</p>
+                </Tooltip>
             </Form>
         </Modal>
     )
@@ -246,6 +266,12 @@ export const EditDateModal = ({onCancel, open, info, listUpdate}) => {
                         use12Hours
                     />
                 </Form.Item>
+                <Tooltip title='
+                    En esta ventana usted podra ingresar nueva informacion de fecha y hora para actualizar la informacion de una 
+                    cita existente y guardar los cambios presionando el boton "ok" al final de la ventana.
+                '>
+                    <p style={{textAlign: 'center'}}>Ayuda</p>
+                </Tooltip>
             </Form>
         </Modal>
     )
@@ -290,6 +316,13 @@ export const AddEntryModal = ({open, onCancel, }) => {
                 <Form.Item name='descriptionField'>
                     <Input.TextArea placeholder="Descripcion del registro" autoSize={true}/>
                 </Form.Item>
+                <Tooltip title='
+                    En esta ventana usted tendra la opcion de agregar una entrada al registro de un paciente
+                    para que este disponible en su historial medico siempre y cuando ingrese la cedula perteneciente al paciente
+                    y una descripcion valida.
+                '>
+                    <p style={{textAlign: 'center'}}>Ayuda</p>
+                </Tooltip>
             </Form>
         </Modal>
     )

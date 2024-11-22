@@ -169,6 +169,30 @@ app.post('/api/addEntry', (req, res) => {
     })
 })
 
+app.get('/api/getHistory/:id', (req, res) => {
+    const id = req.params.id
+    db.all('SELECT users.name AS doctorName, regs.date, regs.description, regs.id FROM regs JOIN users ON regs.doctorId = users.id WHERE patientId = ?', [id], (err, list) => {
+        if(err){
+            console.log(err)
+            res.status(500).send('error del servidor')
+        }else{
+            res.status(200).send(list)
+        }
+    })
+})
+
+app.delete('/api/deleteDoctor/:id', (req, res) => {
+    const id = req.params.id
+    db.run('DELETE FROM users WHERE id = ?', [id], (err) => {
+        if(err){
+            console.log(err)
+            res.status(500).send('error del servidor')
+        }else{
+            res.status(200).send('eliminado con exito')
+        }
+    })
+})
+
 const server = createServer(app)
 server.listen(port, () => {
 console.log(`su puerto es: ${port}`)

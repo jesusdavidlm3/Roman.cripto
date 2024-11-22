@@ -1,4 +1,4 @@
-import { Form, Button, Input, Modal, message } from 'antd'
+import { Form, Button, Input, Tooltip, message } from 'antd'
 import { encrypt } from '../functions/hash'
 import { login, createUser } from '../client/client'
 import { useNavigate } from 'react-router-dom'
@@ -89,6 +89,9 @@ const Home = () => {
 
                 <Button className='Button' onClick={sendLogin} type='primary'>Iniciar sesion</Button>
                 <Button className='Button' onClick={() => setModalReg(true)}>Registrarse</Button>
+                <Tooltip title='En este modulo puede iniciar sesion con sus datos o registrarse haciendo click en el boton d registrar '>
+                    <p>Ayuda</p>
+                </Tooltip>
             </Form>
             <RegModal open={modalReg} onCancel={() => setModalReg(false)} onOk={() => sendRegister()}/>
         </div>

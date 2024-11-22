@@ -123,6 +123,12 @@ const Dashboard = () => {
                             </div>
                         </div>
                     )) }
+                    <Tooltip title='
+                        Este modulo sirve para visualizar las citas que tiene pendiente un doctor o un paciente que inicie sesion.
+                        Tambien es posible eliminar estas citas desde su respectivo boton.
+                    '>
+                        <p style={{textAlign: 'center'}}>Ayuda</p>
+                    </Tooltip>
                 </div>
             </div>
             <ChangePassword

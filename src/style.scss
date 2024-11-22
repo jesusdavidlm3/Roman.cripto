@@ -36,6 +36,15 @@
     gap: 15px;
 }
 
+@mixin listItems{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--itemColor);
+    padding: 0px 10px;
+    border-radius: 15px;
+}
+
 body{
     margin: 0px;
     font-family: "Roboto", system-ui;
@@ -169,12 +178,7 @@ body{
         gap: 10px;
 
         .ListItem{
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background-color: var(--itemColor);
-            padding: 0px 10px;
-            border-radius: 15px;
+            @include listItems;
 
             .info{
                 display: flex;
@@ -185,6 +189,27 @@ body{
             .Buttons{
 
             }
+        }
+    }
+}
+
+.History{
+    @include basics;
+    margin: 0px;
+    background-color: var(--bgColor);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .List{
+        @include fullModule;
+
+        .listItem{
+            @include listItems;
+            flex-direction: column;
+            align-items: start;
+            margin: 25px;
+            width: calc(100% - 50px);
         }
     }
 }
